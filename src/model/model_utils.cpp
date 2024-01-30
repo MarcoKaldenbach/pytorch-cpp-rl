@@ -11,7 +11,7 @@ torch::Tensor orthogonal_(Tensor tensor, double gain)
 {
     NoGradGuard guard;
 
-    AT_CHECK(
+    TORCH_CHECK(
         tensor.ndimension() >= 2,
         "Only tensors with 2 or more dimensions are supported");
 
@@ -26,7 +26,7 @@ torch::Tensor orthogonal_(Tensor tensor, double gain)
 
     // Compute the qr factorization
     Tensor q, r;
-    std::tie(q, r) = torch::qr(flattened);
+    std::tie(q, r) = torch::linalg::qr(flattened);
     // Make Q uniform according to https://arxiv.org/pdf/math-ph/0609050.pdf
     auto d = torch::diag(r, 0);
     auto ph = d.sign();

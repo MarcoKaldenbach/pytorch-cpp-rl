@@ -52,7 +52,7 @@ std::vector<torch::Tensor> NNBase::forward_gru(torch::Tensor x,
     {
         auto gru_output = gru->forward(x.unsqueeze(0),
                                        (rnn_hxs * masks).unsqueeze(0));
-        return {gru_output.output.squeeze(0), gru_output.state.squeeze(0)};
+        return {std::get<0>(gru_output).squeeze(0), std::get<1>(gru_output).squeeze(0)};
     }
     else
     {
@@ -101,7 +101,7 @@ std::vector<torch::Tensor> NNBase::forward_gru(torch::Tensor x,
                                        TensorOptions(torch::kLong))}),
                 rnn_hxs * masks[start_idx].view({1, -1, 1}));
 
-            outputs.push_back(gru_output.output);
+            outputs.push_back(std::get<0>(gru_output));
         }
 
         // x is a (timesteps, agents, -1) tensor
