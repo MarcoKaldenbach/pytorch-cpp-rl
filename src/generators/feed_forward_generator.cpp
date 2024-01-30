@@ -55,25 +55,25 @@ MiniBatch FeedForwardGenerator::next()
     observations_shape[0] = -1;
     mini_batch.observations = observations.narrow(0, 0, timesteps)
                                   .view(observations_shape)
-                                  .index(indices[index]);
+                                  .index({indices[index]});
     mini_batch.hidden_states = hidden_states.narrow(0, 0, timesteps)
                                    .view({-1, hidden_states.size(-1)})
-                                   .index(indices[index]);
+                                   .index({indices[index]});
     mini_batch.actions = actions.view({-1, actions.size(-1)})
-                             .index(indices[index]);
+                             .index({indices[index]});
     mini_batch.value_predictions = value_predictions.narrow(0, 0, timesteps)
                                        .view({-1, 1})
-                                       .index(indices[index]);
+                                       .index({indices[index]});
     mini_batch.returns = returns.narrow(0, 0, timesteps)
                              .view({-1, 1})
-                             .index(indices[index]);
+                             .index({indices[index]});
     mini_batch.masks = masks.narrow(0, 0, timesteps)
                            .view({-1, 1})
-                           .index(indices[index]);
+                           .index({indices[index]});
     mini_batch.action_log_probs = action_log_probs.view({-1, 1})
-                                      .index(indices[index]);
+                                      .index({indices[index]});
     mini_batch.advantages = advantages.view({-1, 1})
-                                .index(indices[index]);
+                                .index({indices[index]});
 
     index++;
     return mini_batch;
